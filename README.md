@@ -6,6 +6,9 @@ Rename jpg files according to EXIF datetime
 mkdir $GOPATH/github.com/devldavydov
 cd $GOPATH/github.com/devldavydov
 gh repo clone devldavydov/exif-rename
+
+cd $GOPATH/github.com/devldavydov/exif-rename
+go mod tidy
 ```
 # build
 ```
