@@ -15,7 +15,7 @@ type ExifRenamer struct {
 	duplicates map[string]int
 }
 
-func CreateExifRenamer(imgPath string, dryRun bool) *ExifRenamer {
+func NewExifRenamer(imgPath string, dryRun bool) *ExifRenamer {
 	return &ExifRenamer{
 		imgPath:    imgPath,
 		dryRun:     dryRun,
@@ -32,17 +32,17 @@ func (rn *ExifRenamer) Run() {
 			exifReader := &ExifReader{}
 			fErr := exifReader.LoadExifData(path)
 			if fErr != nil {
-				fmt.Printf("ERROR: EXIF error, path=%s err=%v\n", path, err)
+				fmt.Fprintf(os.Stderr, "ERROR: EXIF error, path=%s err=%v\n", path, err)
 				return nil
 			}
 			valDateTimeOriginal, ok := exifReader.Tag("DateTimeOriginal")
 			if !ok {
-				fmt.Printf("ERROR: EXIF tag DateTimeOriginal not exists, path=%s\n", path)
+				fmt.Fprintf(os.Stderr, "ERROR: EXIF tag DateTimeOriginal not exists, path=%s\n", path)
 				return nil
 			}
 			formatDateTimeOriginal, fErr := formatDate(valDateTimeOriginal.(string))
 			if fErr != nil {
-				fmt.Printf("ERROR: EXIT DateTimeOriginal parse error, path=%s, err=%v\n", path, fErr)
+				fmt.Fprintf(os.Stderr, "ERROR: EXIT DateTimeOriginal parse error, path=%s, err=%v\n", path, fErr)
 				return nil
 			}
 			rn.renameFile(path, filepath.Join(filepath.Dir(path), fmt.Sprintf("%s.jpg", formatDateTimeOriginal)))
@@ -50,7 +50,7 @@ func (rn *ExifRenamer) Run() {
 		return nil
 	})
 	if err != nil {
-		fmt.Println("ERROR: images path walk error")
+		fmt.Fprintf(os.Stderr, "ERROR: images path walk error")
 	}
 }
 
@@ -72,7 +72,7 @@ func (rn *ExifRenamer) renameFile(oldFilePath string, newFilePath string) {
 	if !rn.dryRun {
 		err := os.Rename(oldFilePath, newFilePath)
 		if err != nil {
-			fmt.Printf("ERROR: move to new path=%s err=%v\n", newFilePath, err)
+			fmt.Fprintf(os.Stderr, "ERROR: move to new path=%s err=%v\n", newFilePath, err)
 		}
 	}
 }

@@ -13,7 +13,7 @@ func main() {
 	imgPath, dryRun := parseArgs()
 	fmt.Printf("Images path: %s\nDry run: %t\n\n", imgPath, dryRun)
 
-	exifRenamer := exifrename.CreateExifRenamer(imgPath, dryRun)
+	exifRenamer := exifrename.NewExifRenamer(imgPath, dryRun)
 	exifRenamer.Run()
 
 	fmt.Println("Press any key...")
@@ -25,7 +25,7 @@ func parseArgs() (string, bool) {
 	dryRun := flag.Bool("dry", false, "perform only dry run")
 	flag.Parse()
 	if *imgPath == "" {
-		fmt.Println("ERROR: images path not set")
+		fmt.Fprintf(os.Stderr, "ERROR: images path not set")
 		os.Exit(1)
 	}
 	return *imgPath, *dryRun
