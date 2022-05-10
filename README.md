@@ -13,7 +13,7 @@ go mod tidy
 # build
 ```
 cd $GOPATH/github.com/devldavydov/exif-rename
-go install .
+go install ./cmd/exif-rename
 ```
 
 # run

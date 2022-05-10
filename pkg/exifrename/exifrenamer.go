@@ -35,12 +35,12 @@ func (rn *ExifRenamer) Run() {
 				fmt.Printf("ERROR: EXIF error, path=%s err=%v\n", path, err)
 				return nil
 			}
-			valDateTimeOriginal, ok := exifReader.GetTag("DateTimeOriginal")
+			valDateTimeOriginal, ok := exifReader.Tag("DateTimeOriginal")
 			if !ok {
 				fmt.Printf("ERROR: EXIF tag DateTimeOriginal not exists, path=%s\n", path)
 				return nil
 			}
-			formatDateTimeOriginal, fErr := rn.formatDate(valDateTimeOriginal.(string))
+			formatDateTimeOriginal, fErr := formatDate(valDateTimeOriginal.(string))
 			if fErr != nil {
 				fmt.Printf("ERROR: EXIT DateTimeOriginal parse error, path=%s, err=%v\n", path, fErr)
 				return nil
@@ -85,7 +85,7 @@ func (rn *ExifRenamer) fileExists(filePath string) bool {
 	return !info.IsDir()
 }
 
-func (rn *ExifRenamer) formatDate(strDate string) (string, error) {
+func formatDate(strDate string) (string, error) {
 	dt, err := time.Parse("2006:01:02 15:04:05", strDate)
 	if err != nil {
 		return "", err

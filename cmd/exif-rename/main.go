@@ -4,8 +4,9 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/devldavydov/exif-rename/exifrename"
 	"os"
+
+	"github.com/devldavydov/exif-rename/pkg/exifrename"
 )
 
 func main() {

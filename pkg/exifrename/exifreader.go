@@ -39,7 +39,7 @@ func (er *ExifReader) LoadExifData(imgFilePath string) error {
 	return nil
 }
 
-func (er *ExifReader) GetTag(tagName string) (interface{}, bool) {
+func (er *ExifReader) Tag(tagName string) (interface{}, bool) {
 	val, ok := er.tags[tagName]
 	return val, ok
 }
